@@ -132,7 +132,7 @@ static struct {
   // CH58X buffers laid out by hand so EP0/EP4 don't burn two unused buffer[] slots. EP0 and EP4
   // share one contiguous 192-byte DMA region (EP4 has no DMA register of its own):
   // EP0 [0:63] (half-duplex OUT+IN) + EP4 OUT [64:127] + EP4 IN [128:191]. Every other endpoint
-  // (incl. EP3, which is bulk-only here — CH58X has no isochronous support) gets a plain 128-byte
+  // (incl. EP3, which is bulk-only here because CH58X has no isochronous support) gets a plain 128-byte
   // OUT+IN buffer, so no oversized EP3 buffer is needed.
   TU_ATTR_ALIGNED(4) uint8_t ep0_ep4_buffer[3 * 64];
   TU_ATTR_ALIGNED(4) uint8_t ep1_buffer[2][64];

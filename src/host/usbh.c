@@ -227,7 +227,7 @@ typedef struct {
   tuh_bus_info_t dev0_bus;    // bus info for dev0 in enumeration
   usbh_ctrl_xfer_info_t ctrl_xfer_info; // control transfer
   usbh_call_after_t call_after;
-  // Per-daddr generation counter — bumped on usbh_device_close() to identify stale pending control transfer
+  // Per-daddr generation counter, bumped on usbh_device_close() to identify stale pending control transfer
   uint8_t daddr_gen[TOTAL_DEVICES + 1];
 #if CFG_TUSB_OS_HAS_SCHEDULER
   osal_task_handle_t task_hdl;  // host task handle, lazy-captured on first tuh_task_ext()
@@ -886,7 +886,7 @@ void tuh_task_ext(uint32_t timeout_ms, bool in_isr) {
 // Control transfer
 //--------------------------------------------------------------------+
 
-// Carries both fields the sync waiter cares about — capturing from xfer_temp
+// Carries both fields the sync waiter cares about, capturing from xfer_temp
 // (snapshot taken before release_slot resets ctrl_info for the next pending
 // entry) so the waiter sees this xfer's data, not the next dispatched one's.
 typedef struct {
@@ -908,7 +908,7 @@ bool tuh_control_xfer (tuh_xfer_t* xfer) {
 
 #if CFG_TUSB_OS_HAS_SCHEDULER
   // Sync (complete_cb == NULL) from a host-stack callback is forbidden on
-  // RTOS targets — the event-loop driver can't block on its own pending xfer
+  // RTOS targets because the event-loop driver can't block on its own pending xfer
   // (deadlock if other control xfers are queued behind). Use async with a
   // chained cb instead. OS_NONE / OS_PICO are exempt: they have a single
   // execution context and the recursive-drive path is the only way to wait.
@@ -916,7 +916,7 @@ bool tuh_control_xfer (tuh_xfer_t* xfer) {
               osal_task_get_current_handle() == _usbh_data.task_hdl));
 #endif
 
-  // Slot is single-threaded — when busy, sync callers block until it frees
+  // The slot is single-threaded. When busy, sync callers block until it frees
   // (blocking semantics require the result); async callers get queued in the
   // pending FIFO and submitted by control_xfer_complete() when the slot
   // drains. The test-and-{claim|enqueue} is one critical section so a slot

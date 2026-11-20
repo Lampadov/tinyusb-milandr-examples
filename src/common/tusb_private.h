@@ -46,7 +46,7 @@ extern tusb_role_t _tusb_rhport_role[TUP_USBIP_CONTROLLER_NUM];
 // Endpoint
 //--------------------------------------------------------------------+
 
-// Endpoint state bits — manipulate the bare uint8_t with these masks.
+// Use these masks to manipulate endpoint state bits in the bare uint8_t.
 #define TU_EDPT_STATE_BUSY    0x01u
 #define TU_EDPT_STATE_STALLED 0x02u
 #define TU_EDPT_STATE_CLAIMED 0x04u

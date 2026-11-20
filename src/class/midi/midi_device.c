@@ -215,7 +215,7 @@ uint32_t tud_midi_n_demux_stream_read(uint8_t itf, uint8_t *p_cable_num, void *b
     const uint8_t next_cable = (one_byte >> 4) & 0x0f;
 
     // Stop if cable changed (covers both leftover-originated reads and
-    // freshly consumed packets — total_read > 0 in either case)
+    // freshly consumed packets, with total_read > 0 in either case)
     if (total_read > 0 && next_cable != *p_cable_num) {
       break;
     }
