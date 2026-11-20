@@ -1,0 +1,7 @@
+/Objects/
+/Listings/
+*.uvguix.*
+*.uvoptx
+*.uvprojx.bak
+__pycache__/
+*.py[cod]
